@@ -75,6 +75,55 @@ curl https://<云托管服务域名>/api/count
 
 更新计数，自增或者清零
 
+### `POST /api/wechat/token`
+
+获取微信stable_token
+
+#### 请求参数
+
+- `appid`：微信小程序的appid
+- `secret`：微信小程序的secret
+- `grant_type`：授权类型，通常为`client_credential`
+
+##### 请求参数示例
+
+```json
+{
+  "appid": "your-appid",
+  "secret": "your-secret",
+  "grant_type": "client_credential"
+}
+```
+
+#### 响应结果
+
+- `code`：错误码
+- `data`：微信token信息
+  - `access_token`：获取到的凭证
+  - `expires_in`：凭证有效时间，单位：秒
+
+##### 响应结果示例
+
+```json
+{
+  "code": 0,
+  "data": {
+    "access_token": "ACCESS_TOKEN",
+    "expires_in": 7200
+  }
+}
+```
+
+#### 调用示例
+
+```
+curl -X POST -H 'content-type: application/json' -d '{"appid": "your-appid", "secret": "your-secret", "grant_type": "client_credential"}' https://<云托管服务域名>/api/wechat/token
+```
+
+### `POST /api/count`
+
+更新计数，自增或者清零
+
 #### 请求参数
 
 - `action`：`string` 类型，枚举值
