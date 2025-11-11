@@ -2,13 +2,16 @@
 /Users/lienlin/AiProjects/wxspringboot/WeixinCloud-springboot/src/main/java/com/tencent/wxcloudrun/controller/CounterController.java
 /Users/lienlin/AiProjects/wxspringboot/WeixinCloud-springboot/src/main/java/com/tencent/wxcloudrun/controller/WechatTokenController.java
 /Users/lienlin/AiProjects/wxspringboot/WeixinCloud-springboot/src/main/java/com/tencent/wxcloudrun/dao/CountersMapper.java
+/Users/lienlin/AiProjects/wxspringboot/WeixinCloud-springboot/src/main/java/com/tencent/wxcloudrun/dto/CreateDraftRequest.java
 /Users/lienlin/AiProjects/wxspringboot/WeixinCloud-springboot/src/main/java/com/tencent/wxcloudrun/dto/WechatTokenResponse.java
+/Users/lienlin/AiProjects/wxspringboot/WeixinCloud-springboot/src/main/java/com/tencent/wxcloudrun/dto/DraftArticleRequest.java
 /Users/lienlin/AiProjects/wxspringboot/WeixinCloud-springboot/src/main/java/com/tencent/wxcloudrun/controller/IndexController.java
 /Users/lienlin/AiProjects/wxspringboot/WeixinCloud-springboot/src/main/java/com/tencent/wxcloudrun/service/CounterService.java
 /Users/lienlin/AiProjects/wxspringboot/WeixinCloud-springboot/src/main/java/com/tencent/wxcloudrun/WxCloudRunApplication.java
 /Users/lienlin/AiProjects/wxspringboot/WeixinCloud-springboot/src/main/java/com/tencent/wxcloudrun/model/Counter.java
 /Users/lienlin/AiProjects/wxspringboot/WeixinCloud-springboot/src/main/java/com/tencent/wxcloudrun/service/impl/WechatTokenServiceImpl.java
 /Users/lienlin/AiProjects/wxspringboot/WeixinCloud-springboot/src/main/java/com/tencent/wxcloudrun/service/impl/CounterServiceImpl.java
+/Users/lienlin/AiProjects/wxspringboot/WeixinCloud-springboot/src/main/java/com/tencent/wxcloudrun/dto/CreateDraftResponse.java
 /Users/lienlin/AiProjects/wxspringboot/WeixinCloud-springboot/src/main/java/com/tencent/wxcloudrun/dto/CounterRequest.java
 /Users/lienlin/AiProjects/wxspringboot/WeixinCloud-springboot/src/main/java/com/tencent/wxcloudrun/config/ApiResponse.java
 /Users/lienlin/AiProjects/wxspringboot/WeixinCloud-springboot/src/main/java/com/tencent/wxcloudrun/dto/WechatTokenRequest.java
