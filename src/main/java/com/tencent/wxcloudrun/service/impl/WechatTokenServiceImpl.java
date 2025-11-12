@@ -6,6 +6,7 @@ import com.tencent.wxcloudrun.dto.CreateDraftRequest;
 import com.tencent.wxcloudrun.dto.CreateDraftResponse;
 import com.tencent.wxcloudrun.dto.PublishArticleRequest;
 import com.tencent.wxcloudrun.dto.PublishArticleResponse;
+import com.tencent.wxcloudrun.dto.UploadMaterialResponse;
 import com.tencent.wxcloudrun.dto.WechatTokenRequest;
 import com.tencent.wxcloudrun.dto.WechatTokenResponse;
 import com.tencent.wxcloudrun.service.WechatTokenService;
@@ -13,7 +14,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,6 +29,7 @@ public class WechatTokenServiceImpl implements WechatTokenService {
     private static final String WECHAT_TOKEN_URL = "https://api.weixin.qq.com/cgi-bin/stable_token";
     private static final String WECHAT_DRAFT_ADD_URL = "https://api.weixin.qq.com/cgi-bin/draft/add";
     private static final String WECHAT_ARTICLE_PUBLISH_URL = "https://api.weixin.qq.com/cgi-bin/freepublish/submit";
+    private static final String WECHAT_MATERIAL_ADD_URL = "https://api.weixin.qq.com/cgi-bin/material/add_material";
 
     @Override
     public WechatTokenResponse getStableToken(WechatTokenRequest request) {
@@ -192,6 +197,80 @@ public class WechatTokenServiceImpl implements WechatTokenService {
         } catch (Exception e) {
             logger.error("发布微信公众号文章失败", e);
             throw new RuntimeException("发布微信公众号文章失败: " + e.getMessage(), e);
+        }
+    }
+
+    @Override
+    public UploadMaterialResponse uploadMaterial(String accessToken, String type, MultipartFile media, String title, String introduction) {
+        logger.info("开始上传微信永久素材，类型: {}", type);
+        
+        try {
+            RestTemplate restTemplate = new RestTemplate();
+            
+            // 构造URL
+            String url = WECHAT_MATERIAL_ADD_URL + "?access_token=" + accessToken + "&type=" + type;
+            
+            // 创建请求头
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+            
+            // 创建请求体
+            MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
+            
+            // 添加文件
+            body.add("media", media.getResource());
+            
+            // 如果是视频类型，添加描述信息
+            if ("video".equals(type)) {
+                Map<String, String> description = new HashMap<>();
+                description.put("title", title);
+                description.put("introduction", introduction);
+                body.add("description", new ObjectMapper().writeValueAsString(description));
+            }
+            
+            // 创建HttpEntity
+            HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
+            
+            // 发送POST请求
+            ResponseEntity<String> response = restTemplate.postForEntity(url, requestEntity, String.class);
+            
+            logger.info("微信上传素材接口响应状态: {}", response.getStatusCode());
+            logger.debug("微信上传素材接口响应内容: {}", response.getBody());
+            
+            // 检查HTTP状态码
+            if (!response.getStatusCode().is2xxSuccessful()) {
+                throw new RuntimeException("微信接口调用失败，HTTP状态码: " + response.getStatusCode());
+            }
+            
+            // 解析响应
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode jsonNode = objectMapper.readTree(response.getBody());
+            
+            // 转换为UploadMaterialResponse对象
+            UploadMaterialResponse materialResponse = new UploadMaterialResponse();
+            
+            // 检查是否有错误码
+            if (jsonNode.has("errcode")) {
+                materialResponse.setErrcode(jsonNode.get("errcode").asInt());
+                if (jsonNode.has("errmsg")) {
+                    materialResponse.setErrmsg(jsonNode.get("errmsg").asText());
+                }
+            }
+            
+            // 如果上传成功，设置media_id和url
+            if (jsonNode.has("media_id")) {
+                materialResponse.setMedia_id(jsonNode.get("media_id").asText());
+            }
+            
+            if (jsonNode.has("url")) {
+                materialResponse.setUrl(jsonNode.get("url").asText());
+            }
+            
+            logger.info("上传微信永久素材完成");
+            return materialResponse;
+        } catch (Exception e) {
+            logger.error("上传微信永久素材失败", e);
+            throw new RuntimeException("上传微信永久素材失败: " + e.getMessage(), e);
         }
     }
 }
