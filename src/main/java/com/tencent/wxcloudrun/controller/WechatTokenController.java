@@ -4,6 +4,8 @@ import com.tencent.wxcloudrun.config.ApiResponse;
 import com.tencent.wxcloudrun.dto.CreateDraftRequest;
 import com.tencent.wxcloudrun.dto.CreateDraftResponse;
 import com.tencent.wxcloudrun.dto.DraftArticleRequest;
+import com.tencent.wxcloudrun.dto.PublishArticleRequest;
+import com.tencent.wxcloudrun.dto.PublishArticleResponse;
 import com.tencent.wxcloudrun.dto.WechatTokenRequest;
 import com.tencent.wxcloudrun.dto.WechatTokenResponse;
 import com.tencent.wxcloudrun.service.WechatTokenService;
@@ -111,6 +113,43 @@ public class WechatTokenController {
         } catch (Exception e) {
             logger.error("创建微信公众号草稿失败", e);
             return ApiResponse.error("创建微信公众号草稿失败: " + e.getMessage());
+        }
+    }
+
+    /**
+     * 发布微信公众号文章
+     * @param accessToken 微信访问令牌
+     * @param request 发布文章请求对象
+     * @return API response json
+     */
+    @PostMapping(value = "/api/wechat/publish")
+    ApiResponse publishWechatArticle(@RequestParam String accessToken, @RequestBody PublishArticleRequest request) {
+        logger.info("/api/wechat/publish post request");
+        
+        // 参数校验
+        if (accessToken == null || accessToken.isEmpty()) {
+            logger.warn("access_token不能为空");
+            return ApiResponse.error("access_token不能为空");
+        }
+        
+        if (request.getMedia_id() == null || request.getMedia_id().isEmpty()) {
+            logger.warn("media_id不能为空");
+            return ApiResponse.error("media_id不能为空");
+        }
+        
+        try {
+            PublishArticleResponse response = wechatTokenService.publishArticle(accessToken, request);
+            logger.info("成功发布微信公众号文章");
+            
+            // 检查微信返回的错误码
+            if (response.getErrcode() != null && response.getErrcode() != 0) {
+                return ApiResponse.error("微信接口返回错误，错误码: " + response.getErrcode() + "，错误信息: " + response.getErrmsg());
+            }
+            
+            return ApiResponse.ok(response);
+        } catch (Exception e) {
+            logger.error("发布微信公众号文章失败", e);
+            return ApiResponse.error("发布微信公众号文章失败: " + e.getMessage());
         }
     }
 }

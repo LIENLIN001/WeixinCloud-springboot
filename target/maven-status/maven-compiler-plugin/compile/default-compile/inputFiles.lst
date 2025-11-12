@@ -5,6 +5,7 @@
 /Users/lienlin/AiProjects/wxspringboot/WeixinCloud-springboot/src/main/java/com/tencent/wxcloudrun/dto/CreateDraftRequest.java
 /Users/lienlin/AiProjects/wxspringboot/WeixinCloud-springboot/src/main/java/com/tencent/wxcloudrun/dto/WechatTokenResponse.java
 /Users/lienlin/AiProjects/wxspringboot/WeixinCloud-springboot/src/main/java/com/tencent/wxcloudrun/dto/DraftArticleRequest.java
+/Users/lienlin/AiProjects/wxspringboot/WeixinCloud-springboot/src/main/java/com/tencent/wxcloudrun/dto/PublishArticleResponse.java
 /Users/lienlin/AiProjects/wxspringboot/WeixinCloud-springboot/src/main/java/com/tencent/wxcloudrun/controller/IndexController.java
 /Users/lienlin/AiProjects/wxspringboot/WeixinCloud-springboot/src/main/java/com/tencent/wxcloudrun/service/CounterService.java
 /Users/lienlin/AiProjects/wxspringboot/WeixinCloud-springboot/src/main/java/com/tencent/wxcloudrun/WxCloudRunApplication.java
@@ -14,4 +15,5 @@
 /Users/lienlin/AiProjects/wxspringboot/WeixinCloud-springboot/src/main/java/com/tencent/wxcloudrun/dto/CreateDraftResponse.java
 /Users/lienlin/AiProjects/wxspringboot/WeixinCloud-springboot/src/main/java/com/tencent/wxcloudrun/dto/CounterRequest.java
 /Users/lienlin/AiProjects/wxspringboot/WeixinCloud-springboot/src/main/java/com/tencent/wxcloudrun/config/ApiResponse.java
+/Users/lienlin/AiProjects/wxspringboot/WeixinCloud-springboot/src/main/java/com/tencent/wxcloudrun/dto/PublishArticleRequest.java
 /Users/lienlin/AiProjects/wxspringboot/WeixinCloud-springboot/src/main/java/com/tencent/wxcloudrun/dto/WechatTokenRequest.java
